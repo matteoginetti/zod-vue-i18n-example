@@ -32,6 +32,9 @@ const onSubmit = () => {
 
 <template>
   <div>
+    <div class="logo">
+      <img src="/logo.svg" alt="" />
+    </div>
     <form @submit.prevent="onSubmit">
       <label for="name">{{ $t('name') }}</label>
       <input v-model="value.name" type="text" id="name" />
@@ -46,10 +49,17 @@ const onSubmit = () => {
 </template>
 
 <style>
+.logo {
+  margin-bottom: 2em;
+}
 form {
   display: flex;
   flex-direction: column;
   align-items: start;
+}
+
+button {
+  margin-top: 1em;
 }
 
 span {
