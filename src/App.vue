@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
 import { ref } from 'vue';
+import { z } from 'zod';
 
 const schemaValidation = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3).max(10),
   surname: z.number(),
 });
 
-const value = ref({});
+console.log();
+type SchemaValidation = z.infer<typeof schemaValidation>;
+
+const value = ref({} as SchemaValidation);
 const errors = ref();
 
 let validate = null;
@@ -17,12 +20,12 @@ const onSubmit = () => {
   console.log(validate);
   if (!validate.success) {
     const errorFormatted = validate.error.format();
-    delete errorFormatted._errors;
     errors.value = Object.keys(errorFormatted).reduce((acc, value) => {
+      if (value == '_errors') return acc;
       let res = { ...acc };
       res[value] = errorFormatted[value]._errors[0];
       return res;
-    }, {});
+    }, {} as Record<string, string>);
   }
 };
 </script>
